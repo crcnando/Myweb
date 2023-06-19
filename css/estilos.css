@@ -1,6 +1,18 @@
 body
 {
-    color: rgb(30, 210, 48);
+    color: black;
     text-align: center;
     font-family: Arial, Helvetica, sans-serif;
+}
+#container
+{
+    width: 70%;
+    padding: 1em;
+    text-align: left;
+    border: 1px solid  rgb(228, 216, 216) ;
+    margin: auto;
+}
+#conteiner h1
+{
+    font-size: 20%;
 }
