@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "tradingview": {
+      "command": "node",
+      "args": ["/RUTA/ABSOLUTA/tradingview-mcp/src/server.js"],
+      "env": {
+        "TV_DEBUG_PORT": "9222"
+      }
+    },
+    "pinescript": {
+      "command": "npx",
+      "args": ["pinescript-mcp-server"]
+    }
+  }
+}
