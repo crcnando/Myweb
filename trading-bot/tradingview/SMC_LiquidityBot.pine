@@ -1,0 +1,281 @@
+// ═══════════════════════════════════════════════════════════════════
+// SMC + Liquidity Sweep Bot — TradingView Pine Script v5
+// Strategy: Smart Money Concepts — Order Blocks, Fair Value Gaps,
+//           Liquidity sweeps and Change of Character (CHoCH/BOS)
+//
+// Based on methodology from: ICT / Smart Money Concepts
+// Timeframes: Works on 1m, 5m, 15m, 1H, 4H, Daily
+// Markets: Crypto, Forex, Indices, Stocks
+// ═══════════════════════════════════════════════════════════════════
+
+//@version=5
+strategy(
+    title="SMC Liquidity Bot",
+    overlay=true,
+    initial_capital=1000,
+    default_qty_type=strategy.percent_of_equity,
+    default_qty_value=10,
+    commission_type=strategy.commission.percent,
+    commission_value=0.05,
+    slippage=2,
+    pyramiding=0,
+    calc_on_order_fills=false
+)
+
+// ─── INPUTS ──────────────────────────────────────────────────────────────────
+var g1 = "Structure"
+swingLen        = input.int(10, "Swing Length",        minval=3, maxval=50, group=g1)
+showBOS         = input.bool(true, "Show BOS/CHoCH",                        group=g1)
+showOrderBlocks = input.bool(true, "Show Order Blocks",                     group=g1)
+
+var g2 = "Fair Value Gaps"
+showFVG         = input.bool(true,  "Show FVGs",                            group=g2)
+fvgMinSize      = input.float(0.001, "Min FVG Size %", minval=0.0001, step=0.0001, group=g2)
+fvgMaxBars      = input.int(50, "FVG Max Age (bars)",  minval=10,           group=g2)
+
+var g3 = "Entry & Risk"
+riskPct         = input.float(1.0,  "Risk per Trade %", minval=0.1, maxval=5.0, group=g3)
+rrRatio         = input.float(2.5,  "Min RR Ratio",     minval=1.0,         group=g3)
+useHTFFilter    = input.bool(true,  "HTF Trend Filter (200 EMA)",           group=g3)
+htfTF           = input.timeframe("240", "HTF Timeframe",                   group=g3)
+
+var g4 = "Killzones (UTC)"
+useKillzones    = input.bool(true, "Only trade in Killzones",               group=g4)
+// London: 07:00-10:00 UTC | New York: 13:30-16:00 UTC | Asian: 00:00-02:30 UTC
+londonOpen      = input.int(700,  "London Open (HHMM UTC)",                group=g4)
+londonClose     = input.int(1000, "London Close (HHMM UTC)",               group=g4)
+nyOpen          = input.int(1330, "NY Open (HHMM UTC)",                    group=g4)
+nyClose         = input.int(1600, "NY Close (HHMM UTC)",                   group=g4)
+
+// ─── HTF TREND FILTER ────────────────────────────────────────────────────────
+htfEMA200       = request.security(syminfo.tickerid, htfTF, ta.ema(close, 200))
+bullishHTF      = close > htfEMA200
+bearishHTF      = close < htfEMA200
+
+// ─── SWING HIGHS / LOWS ──────────────────────────────────────────────────────
+swingHigh = ta.pivothigh(high, swingLen, swingLen)
+swingLow  = ta.pivotlow(low,  swingLen, swingLen)
+
+var float lastSwingHigh = na
+var float lastSwingLow  = na
+var int   lastSHBar     = na
+var int   lastSLBar     = na
+
+if not na(swingHigh)
+    lastSwingHigh := swingHigh
+    lastSHBar     := bar_index - swingLen
+
+if not na(swingLow)
+    lastSwingLow := swingLow
+    lastSLBar    := bar_index - swingLen
+
+// ─── MARKET STRUCTURE (BOS / CHoCH) ─────────────────────────────────────────
+var bool  uptrend        = true
+var float prevSH         = na
+var float prevSL         = na
+var bool  bosUp          = false
+var bool  bosDown        = false
+var bool  chochUp        = false
+var bool  chochDown      = false
+
+bosUp    = false
+bosDown  = false
+chochUp  = false
+chochDown = false
+
+// Break of Structure UP: price closes above last swing high
+if not na(lastSwingHigh) and close > lastSwingHigh and uptrend == false
+    chochUp  := true
+    uptrend  := true
+
+if not na(lastSwingHigh) and close > lastSwingHigh and uptrend == true
+    bosUp    := true
+
+// Break of Structure DOWN: price closes below last swing low
+if not na(lastSwingLow) and close < lastSwingLow and uptrend == true
+    chochDown := true
+    uptrend   := false
+
+if not na(lastSwingLow) and close < lastSwingLow and uptrend == false
+    bosDown   := true
+
+// Draw BOS / CHoCH labels
+if showBOS
+    if bosUp
+        label.new(bar_index, low - syminfo.mintick * 10, "BOS",
+                  style=label.style_label_up, color=color.new(color.green, 0),
+                  textcolor=color.white, size=size.tiny)
+    if bosDown
+        label.new(bar_index, high + syminfo.mintick * 10, "BOS",
+                  style=label.style_label_down, color=color.new(color.red, 0),
+                  textcolor=color.white, size=size.tiny)
+    if chochUp
+        label.new(bar_index, low - syminfo.mintick * 20, "CHoCH",
+                  style=label.style_label_up, color=color.new(#00bcd4, 0),
+                  textcolor=color.white, size=size.small)
+    if chochDown
+        label.new(bar_index, high + syminfo.mintick * 20, "CHoCH",
+                  style=label.style_label_down, color=color.new(#ff9800, 0),
+                  textcolor=color.white, size=size.small)
+
+// ─── ORDER BLOCKS ────────────────────────────────────────────────────────────
+// Bullish OB: last bearish candle before a strong bullish move (BOS up)
+// Bearish OB: last bullish candle before a strong bearish move (BOS down)
+
+var float bullOBTop   = na
+var float bullOBBot   = na
+var int   bullOBBar   = na
+var float bearOBTop   = na
+var float bearOBBot   = na
+var int   bearOBBar   = na
+
+if bosUp or chochUp
+    // The last red candle before the breakout is the bullish OB
+    for i = 1 to swingLen
+        if close[i] < open[i]  // bearish candle
+            bullOBTop := high[i]
+            bullOBBot := low[i]
+            bullOBBar := bar_index - i
+            break
+
+if bosDown or chochDown
+    for i = 1 to swingLen
+        if close[i] > open[i]  // bullish candle
+            bearOBTop := high[i]
+            bearOBBot := low[i]
+            bearOBBar := bar_index - i
+            break
+
+// Draw OBs as boxes
+if showOrderBlocks
+    if not na(bullOBTop) and not na(bullOBBar)
+        box.new(bullOBBar, bullOBTop, bar_index, bullOBBot,
+                border_color=color.new(color.green, 50),
+                bgcolor=color.new(color.green, 85),
+                extend=extend.right, xloc=xloc.bar_index)
+        bullOBTop := na
+        bullOBBot := na
+
+    if not na(bearOBTop) and not na(bearOBBar)
+        box.new(bearOBBar, bearOBTop, bar_index, bearOBBot,
+                border_color=color.new(color.red, 50),
+                bgcolor=color.new(color.red, 85),
+                extend=extend.right, xloc=xloc.bar_index)
+        bearOBTop := na
+        bearOBBot := na
+
+// ─── FAIR VALUE GAPS (FVG) ───────────────────────────────────────────────────
+// Bullish FVG: low[0] > high[2] (gap up — imbalance)
+// Bearish FVG: high[0] < low[2] (gap down — imbalance)
+
+bullFVG = low > high[2] and (low - high[2]) / high[2] > fvgMinSize
+bearFVG = high < low[2] and (low[2] - high) / low[2] > fvgMinSize
+
+if showFVG
+    if bullFVG
+        box.new(bar_index - 2, low, bar_index, high[2],
+                border_color=color.new(color.teal, 50),
+                bgcolor=color.new(color.teal, 88),
+                extend=extend.right, xloc=xloc.bar_index)
+    if bearFVG
+        box.new(bar_index - 2, low[2], bar_index, high,
+                border_color=color.new(color.orange, 50),
+                bgcolor=color.new(color.orange, 88),
+                extend=extend.right, xloc=xloc.bar_index)
+
+// ─── KILLZONE FILTER ─────────────────────────────────────────────────────────
+currentHHMM = hour * 100 + minute
+
+inLondon = currentHHMM >= londonOpen  and currentHHMM < londonClose
+inNY     = currentHHMM >= nyOpen      and currentHHMM < nyClose
+inKillzone = not useKillzones or (inLondon or inNY)
+
+// ─── ENTRY SIGNALS ───────────────────────────────────────────────────────────
+// Long setup:
+//   1. HTF is bullish (above 200 EMA on HTF)
+//   2. We have a CHoCH or BOS up (structure shift confirmed)
+//   3. Price pulls back into a bullish OB or FVG
+//   4. We're in a Killzone
+//   5. Candle closes bullish off the zone
+
+var float longEntry = na
+var float longSL    = na
+var float longTP    = na
+
+var float shortEntry = na
+var float shortSL    = na
+var float shortTP    = na
+
+// Simplified entry: trigger on momentum candle after structure shift
+// in the direction of HTF + within a killzone
+
+longCond  = (chochUp or bosUp) and bullishHTF and inKillzone and close > open
+shortCond = (chochDown or bosDown) and bearishHTF and inKillzone and close < open
+
+// ATR for stop sizing
+atr14 = ta.atr(14)
+
+// Long trade
+if longCond and strategy.position_size == 0
+    longEntry := close
+    longSL    := low - atr14 * 1.5
+    longTP    := close + (close - longSL) * rrRatio
+    strategy.entry("Long", strategy.long, comment="L")
+    strategy.exit("Long Exit", "Long", stop=longSL, limit=longTP)
+
+// Short trade
+if shortCond and strategy.position_size == 0
+    shortEntry := close
+    shortSL    := high + atr14 * 1.5
+    shortTP    := close - (shortSL - close) * rrRatio
+    strategy.entry("Short", strategy.short, comment="S")
+    strategy.exit("Short Exit", "Short", stop=shortSL, limit=shortTP)
+
+// ─── VISUALS ─────────────────────────────────────────────────────────────────
+// HTF EMA 200
+plot(htfEMA200, "HTF 200 EMA", color=color.new(color.yellow, 30), linewidth=2)
+
+// Trend background
+bgcolor(
+    uptrend and bullishHTF ? color.new(color.green, 97) :
+    not uptrend and bearishHTF ? color.new(color.red, 97) :
+    na
+)
+
+// Entry arrows
+plotshape(longCond  and strategy.position_size == 0, "Long",  shape.triangleup,
+          location.belowbar, color.new(color.green, 0), size=size.normal)
+plotshape(shortCond and strategy.position_size == 0, "Short", shape.triangledown,
+          location.abovebar, color.new(color.red, 0),   size=size.normal)
+
+// Killzone background highlight
+bgcolor(inLondon ? color.new(#2196f3, 95) : na, title="London Killzone")
+bgcolor(inNY     ? color.new(#ff9800, 95) : na, title="NY Killzone")
+
+// ─── STATS TABLE ─────────────────────────────────────────────────────────────
+var table statsTable = table.new(position.top_right, 2, 6,
+                                  border_width=1,
+                                  border_color=color.new(color.gray, 50))
+
+if barstate.islast
+    totalTrades = strategy.closedtrades
+    winTrades   = strategy.wintrades
+    winRate     = totalTrades > 0 ? winTrades / totalTrades * 100 : 0.0
+    netPnl      = strategy.netprofit
+
+    table.cell(statsTable, 0, 0, "SMC Bot Stats",    text_color=color.white, bgcolor=color.navy)
+    table.cell(statsTable, 1, 0, "",                 bgcolor=color.navy)
+    table.cell(statsTable, 0, 1, "Trades",           text_color=color.gray)
+    table.cell(statsTable, 1, 1, str.tostring(totalTrades), text_color=color.white)
+    table.cell(statsTable, 0, 2, "Win Rate",         text_color=color.gray)
+    table.cell(statsTable, 1, 2, str.tostring(math.round(winRate, 1)) + "%",
+               text_color=winRate >= 50 ? color.green : color.red)
+    table.cell(statsTable, 0, 3, "Net PnL",          text_color=color.gray)
+    table.cell(statsTable, 1, 3, "$" + str.tostring(math.round(netPnl, 2)),
+               text_color=netPnl >= 0 ? color.green : color.red)
+    table.cell(statsTable, 0, 4, "HTF Trend",        text_color=color.gray)
+    table.cell(statsTable, 1, 4, bullishHTF ? "BULL" : "BEAR",
+               text_color=bullishHTF ? color.green : color.red)
+    table.cell(statsTable, 0, 5, "Killzone",         text_color=color.gray)
+    table.cell(statsTable, 1, 5, inKillzone ? "ACTIVE" : "CLOSED",
+               text_color=inKillzone ? color.green : color.gray)

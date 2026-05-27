@@ -1,0 +1,89 @@
+// ═══════════════════════════════════════════════════════════════════
+// Webhook Alert Executor — TradingView → Broker
+// Generates structured JSON alerts that connect TradingView signals
+// to execution APIs (Bybit, Binance, OANDA, 3Commas, etc.)
+//
+// How to use:
+//   1. Add this script to the same chart as SMC_LiquidityBot
+//   2. Create an Alert → "Any alert() function call"
+//   3. Paste your webhook URL (from your broker or middleware)
+//   4. The JSON payload will fire on each signal
+// ═══════════════════════════════════════════════════════════════════
+
+//@version=5
+indicator("Webhook Alert Executor", overlay=true)
+
+// ─── INPUTS ──────────────────────────────────────────────────────────────────
+botToken    = input.string("YOUR_BOT_TOKEN",  "Bot Token (3Commas/Bybit)")
+pairId      = input.string("BTC_USDT",        "Trading Pair")
+riskPct     = input.float(1.0,  "Risk %", minval=0.1, step=0.1)
+tp1R        = input.float(1.5,  "TP1 (R multiples)")
+tp2R        = input.float(2.5,  "TP2 (R multiples)")
+slMulti     = input.float(1.5,  "SL ATR Multiplier")
+useTP1      = input.bool(true,  "Use TP1 (partial close)")
+tp1Pct      = input.float(50.0, "TP1 Close %", minval=10, maxval=90)
+
+// ─── INDICATORS ──────────────────────────────────────────────────────────────
+ema50  = ta.ema(close, 50)
+ema200 = ta.ema(close, 200)
+atr14  = ta.atr(14)
+rsi14  = ta.rsi(close, 14)
+
+bull = ema50 > ema200
+bear = ema50 < ema200
+
+// Simple momentum signals (replace with your strategy's signals)
+longSignal  = ta.crossover(ema50, ema200)  and rsi14 < 65
+shortSignal = ta.crossunder(ema50, ema200) and rsi14 > 35
+
+// ─── ALERT PAYLOADS ──────────────────────────────────────────────────────────
+// Adjust the JSON structure for your broker:
+// - 3Commas: uses "message_type", "bot_id", etc.
+// - Bybit/Binance direct: uses "symbol", "side", "qty"
+// - Generic: adapt as needed
+
+atrPips = atr14 / syminfo.mintick
+
+if longSignal
+    slPrice  = close - atr14 * slMulti
+    tp1Price = close + atr14 * slMulti * tp1R
+    tp2Price = close + atr14 * slMulti * tp2R
+
+    // Generic webhook payload
+    alertPayload = '{"action":"buy",' +
+                   '"symbol":"' + pairId + '",' +
+                   '"price":' + str.tostring(math.round(close, 4)) + ',' +
+                   '"sl":' + str.tostring(math.round(slPrice, 4)) + ',' +
+                   '"tp1":' + str.tostring(math.round(tp1Price, 4)) + ',' +
+                   '"tp2":' + str.tostring(math.round(tp2Price, 4)) + ',' +
+                   '"risk_pct":' + str.tostring(riskPct) + ',' +
+                   '"tp1_close_pct":' + str.tostring(tp1Pct) + ',' +
+                   '"token":"' + botToken + '",' +
+                   '"timestamp":' + str.tostring(timenow) + '}'
+
+    alert(alertPayload, alert.freq_once_per_bar_close)
+
+if shortSignal
+    slPrice  = close + atr14 * slMulti
+    tp1Price = close - atr14 * slMulti * tp1R
+    tp2Price = close - atr14 * slMulti * tp2R
+
+    alertPayload = '{"action":"sell",' +
+                   '"symbol":"' + pairId + '",' +
+                   '"price":' + str.tostring(math.round(close, 4)) + ',' +
+                   '"sl":' + str.tostring(math.round(slPrice, 4)) + ',' +
+                   '"tp1":' + str.tostring(math.round(tp1Price, 4)) + ',' +
+                   '"tp2":' + str.tostring(math.round(tp2Price, 4)) + ',' +
+                   '"risk_pct":' + str.tostring(riskPct) + ',' +
+                   '"tp1_close_pct":' + str.tostring(tp1Pct) + ',' +
+                   '"token":"' + botToken + '",' +
+                   '"timestamp":' + str.tostring(timenow) + '}'
+
+    alert(alertPayload, alert.freq_once_per_bar_close)
+
+// ─── VISUALS ─────────────────────────────────────────────────────────────────
+plot(ema50,  "EMA 50",  color=color.new(color.blue, 0),   linewidth=1)
+plot(ema200, "EMA 200", color=color.new(color.orange, 0), linewidth=2)
+
+plotshape(longSignal,  "Buy",  shape.triangleup,   location.belowbar, color.lime,  size=size.small)
+plotshape(shortSignal, "Sell", shape.triangledown, location.abovebar, color.red,   size=size.small)
