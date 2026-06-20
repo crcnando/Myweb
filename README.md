@@ -15,6 +15,8 @@ Este repositorio es el **hub central** de mi vida. Sincroniza mi celular, PC per
 | Trabajo | [Ver proyectos](work/projects/README.md) | Daily standup |
 | Ideas de Negocio | [Ver ideas](business/ideas/) | Evaluar idea #1 |
 | Meta del Mes | [Ver metas](personal/goals/2026-goals.md) | Revisar progreso |
+| Finanzas | [Ver panel](finances/README.md) | Registrar gastos |
+| Deudas | [Ver tracker](finances/templates/debt-tracker.md) | Actualizar saldos |
 
 ---
 
@@ -36,6 +38,18 @@ VIDA
 - [Trabajo](work/README.md) — Productividad, proyectos, carrera profesional
 - [Social](social/README.md) — Red de contactos y comunidad
 - [Marital](marital/README.md) — Vida en pareja y proyectos conjuntos
+
+---
+
+## Finanzas
+
+- [Panel de Finanzas](finances/README.md) — Resumen total de todas las finanzas
+- [Gastos Personales](finances/personal/) — Control de ingresos y gastos personales
+- [Finanzas Empresa](finances/business/) — Contabilidad del negocio
+- [Economia de Pareja](finances/couple/) — Finanzas compartidas y metas conjuntas
+- [Deudas](finances/templates/debt-tracker.md) — Registro y estrategia de pago
+- [Cuentas por Pagar](finances/templates/accounts-payable.md) — Pagos del mes
+- [Flujo de Caja](finances/templates/cashflow-template.md) — Proyeccion vs real
 
 ---
 
