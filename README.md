@@ -2,87 +2,114 @@
 
 > "No administras el tiempo, administras las decisiones que tomas en el tiempo."
 
-Este repositorio es el **hub central** de mi vida. Sincroniza mi celular, PC personal y PC laboral mediante Git. Todo lo que importa vive aquí.
+Este repositorio es el **hub central** de mi vida. Sincroniza mi celular, PC personal y PC laboral mediante Git. Todo lo que importa vive aqui.
 
 ---
 
 ## Panel de Control Rapido
 
-| Area | Estado | Proxima Accion |
-|------|--------|----------------|
-| Agenda Semanal | [Semana actual](agenda/templates/weekly-template.md) | Planear lunes |
-| Platzi | [Ver tracker](personal/learning/platzi-tracker.md) | Proxima leccion |
-| Trabajo | [Ver proyectos](work/projects/README.md) | Daily standup |
-| Ideas de Negocio | [Ver ideas](business/ideas/) | Evaluar idea #1 |
-| Meta del Mes | [Ver metas](personal/goals/2026-goals.md) | Revisar progreso |
-| Finanzas | [Ver panel](finances/README.md) | Registrar gastos |
-| Deudas | [Ver tracker](finances/templates/debt-tracker.md) | Actualizar saldos |
+| Area | Proxima Accion |
+|------|----------------|
+| [Agenda Semanal](agenda/templates/weekly-template.md) | Planear la semana |
+| [KPIs Semanales](kpis/templates/weekly-kpis.md) | Completar revision dominical |
+| [Platzi](personal/learning/platzi-tracker.md) | Proxima leccion |
+| [Trabajo](work/projects/README.md) | Revisar proyectos activos |
+| [Ideas de Negocio](business/ideas/) | Evaluar idea #1 |
+| [Finanzas](finances/README.md) | Registrar gastos del dia |
+| [Deudas](finances/templates/debt-tracker.md) | Actualizar saldos |
+| [Salud](health/tracker/daily-health-log.md) | Registro diario de salud |
+| [Segundo Cerebro](brain/ideas/inbox.md) | Procesar ideas del inbox |
+| [Marca Personal](brand/content/content-calendar.md) | Publicar contenido |
 
 ---
 
-## Mis 5 Circulos de Vida
+## Estructura del Sistema
 
 ```
-VIDA
-├── Personal     → Aprendizaje, salud, habitos, crecimiento
-├── Familiar     → Tiempo de calidad, compromisos, tradiciones
-├── Laboral      → Proyectos, productividad, carrera
-├── Social       → Amigos, red de contactos, comunidad
-└── Marital      → Conexion, planes en pareja, proyectos juntos
+SISTEMA OPERATIVO DE VIDA
+│
+├── CIRCULOS DE VIDA
+│   ├── personal/     → Aprendizaje, habitos, metas
+│   ├── family/       → Compromisos y tiempo familiar
+│   ├── work/         → Proyectos y productividad laboral
+│   ├── social/       → Red de contactos y comunidad
+│   └── marital/      → Vida en pareja y proyectos juntos
+│
+├── MOTORES DEL SISTEMA
+│   ├── agenda/       → Templates diario, semanal, mensual
+│   ├── kpis/         → Dashboard de metricas de vida
+│   ├── health/       → Salud: sueno, ejercicio, nutricion
+│   ├── finances/     → Personal + empresa + pareja
+│   └── brain/        → Segundo cerebro: ideas, libros, notas
+│
+├── EMPRENDIMIENTO
+│   └── business/     → Ideas, IA/automatizacion, modelos
+│
+├── MARCA PERSONAL
+│   └── brand/        → Contenido, LinkedIn, red de contactos
+│
+└── SISTEMA BASE
+    ├── docs/         → Guias, filosofia, seguridad
+    └── tools/        → Scripts de automatizacion
 ```
 
-### Navegar por Circulos
+---
 
-- [Personal](personal/README.md) — Aprendizaje Platzi, habitos, metas personales
-- [Familia](family/README.md) — Tiempo y compromisos familiares
-- [Trabajo](work/README.md) — Productividad, proyectos, carrera profesional
+## Navegar por Area
+
+### Circulos de Vida
+- [Personal](personal/README.md) — Platzi, habitos, metas 2026
+- [Familia](family/README.md) — Compromisos y tiempo en familia
+- [Trabajo](work/README.md) — Proyectos, productividad, carrera
 - [Social](social/README.md) — Red de contactos y comunidad
-- [Marital](marital/README.md) — Vida en pareja y proyectos conjuntos
+- [Marital](marital/README.md) — Vida en pareja, economia compartida
 
----
+### Motores del Sistema
+- [Agenda](agenda/templates/) — Templates de planificacion
+- [KPIs](kpis/README.md) — Dashboard de metricas personales
+- [Salud](health/README.md) — Tracker de sueno, ejercicio, energia
+- [Finanzas](finances/README.md) — Contabilidad total: personal + empresa + pareja
+- [Segundo Cerebro](brain/README.md) — Ideas, libros, notas de aprendizaje
 
-## Finanzas
-
-- [Panel de Finanzas](finances/README.md) — Resumen total de todas las finanzas
-- [Gastos Personales](finances/personal/) — Control de ingresos y gastos personales
-- [Finanzas Empresa](finances/business/) — Contabilidad del negocio
-- [Economia de Pareja](finances/couple/) — Finanzas compartidas y metas conjuntas
-- [Deudas](finances/templates/debt-tracker.md) — Registro y estrategia de pago
-- [Cuentas por Pagar](finances/templates/accounts-payable.md) — Pagos del mes
-- [Flujo de Caja](finances/templates/cashflow-template.md) — Proyeccion vs real
-
----
-
-## Emprendimiento e IA
-
-- [Ideas de Negocio](business/ideas/) — Evaluacion y seguimiento de ideas
-- [Automatizacion con IA](business/ai-automation/) — Modelos y proyectos de automatizacion
+### Emprendimiento e IA
+- [Ideas de Negocio](business/ideas/) — Evaluacion con template
+- [Automatizacion con IA](business/ai-automation/) — Proyectos tecnicos
 - [Modelos de Negocio](business/models/) — Canvas y validaciones
 
+### Marca Personal
+- [Estrategia de Contenido](brand/content/content-calendar.md) — Que publicar y cuando
+- [LinkedIn](brand/linkedin-strategy.md) — Plan de posicionamiento
+- [Propuesta de Valor](brand/personal-value-proposition.md) — Mi diferenciador
+- [Red de Contactos](brand/network/key-contacts.md) — Mentores y aliados
+
 ---
 
-## Como Usar Este Sistema en 3 Dispositivos
+## Como Usar en 3 Dispositivos
 
 ```bash
-# En cualquier dispositivo, cada manana:
+# Cada manana (en cualquier dispositivo):
 git pull origin main
 
-# Despues de actualizar algo:
+# Al terminar de trabajar:
 git add .
-git commit -m "dia: notas del lunes 2026-06-20"
+git commit -m "agenda: daily del lunes 2026-06-23"
 git push origin main
+
+# Atajo (script incluido):
+bash tools/sync.sh "tu mensaje aqui"
 ```
 
-Ver guia completa en [docs/setup-guide.md](docs/setup-guide.md)
+- [Guia completa de configuracion](docs/setup-guide.md)
+- [Guia de seguridad](docs/security-guide.md) — Que NO subir al repo
 
 ---
 
-## Herramientas y Recursos
+## Documentacion y Recursos
 
-- [Guia de Configuracion](docs/setup-guide.md) — Como instalar Git en cada dispositivo
+- [Roadmap](ROADMAP.md) — Plan de 5 fases
 - [Filosofia del Sistema](docs/philosophy.md) — Los principios que guian todo
-- [Roadmap General](ROADMAP.md) — El plan completo por fases
-- [Herramientas y Scripts](tools/) — Automatizaciones utiles
+- [Guia de Configuracion](docs/setup-guide.md) — Git en celular, PC personal y PC laboral
+- [Seguridad](docs/security-guide.md) — Como proteger tu informacion
 
 ---
 
@@ -91,8 +118,8 @@ Ver guia completa en [docs/setup-guide.md](docs/setup-guide.md)
 - Aprendiendo en Platzi: habilidades blandas + programacion
 - Objetivo: automatizar procesos con IA para emprender
 - Reto personal: ser hiper-productivo en todos mis circulos
-- Vision a largo plazo: sistematizar y vender el modelo
+- Vision: sistematizar el modelo y venderlo / replicarlo
 
 ---
 
-*Ultima actualizacion: 2026-06-20 | Rama de desarrollo: claude/life-automation-repo-tplnxy*
+*Ultima actualizacion: 2026-06-20*

@@ -1,0 +1,46 @@
+# ============================================
+# ARCHIVOS QUE NUNCA DEBEN SUBIR A GITHUB
+# ============================================
+
+# Carpeta privada — solo vive en tu dispositivo
+private/
+
+# Archivos con contraseñas o tokens
+*.env
+.env*
+secrets.txt
+passwords.txt
+tokens.txt
+api-keys.txt
+
+# Archivos de Office con datos reales (subir solo si es intencional)
+*.xlsx
+*.xls
+*.doc
+*.docx
+*.pdf
+
+# Archivos del sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*.swo
+*~
+
+# Archivos de editor
+.vscode/settings.json
+.idea/
+*.iml
+
+# Archivos temporales
+*.tmp
+*.temp
+*.log
+*.bak
+
+# Datos sensibles especificos
+finanzas-reales/
+documentos-identidad/
+contratos/
+extractos-bancarios/
