@@ -1,115 +1,99 @@
 # Economia de Pareja
 
-> Las finanzas de pareja claras = menos conflictos y mas metas logradas juntos.
-
-Ultima actualizacion: 2026-06-20
-
----
-
-## Nuestro Modelo Financiero de Pareja
-
-Elegir el modelo que usan (marcar uno):
-
-- [ ] **Cuenta conjunta total** — Todo entra a una sola cuenta compartida
-- [ ] **Modelo 50/50** — Cada uno aporta el 50% de los gastos compartidos
-- [ ] **Modelo Proporcional** — Cada uno aporta segun su ingreso (ej: yo 60%, ella 40%)
-- [x] **Modelo Hibrido** — Cuentas personales + fondo comun para gastos compartidos
-- [ ] **Otro:** _______________
-
-**Nuestro modelo:** _______________
+Datos extraidos del archivo CONTRO_DE_INGRESOS_Y_GASTOS.xlsx
+Ultima actualizacion: 2026-06-22
 
 ---
 
-## Ingresos de la Pareja
+## Ingresos Combinados de la Pareja
 
-| Quien | Fuente | Ingreso Mensual | % del Total |
-|-------|--------|----------------|------------|
-| Yo | | $ | % |
-| Pareja | | $ | % |
-| **TOTAL HOGAR** | | **$** | **100%** |
-
----
-
-## Fondo Comun (si aplica)
-
-**Cuenta / lugar del fondo comun:** _______________
-
-| Yo aporto | Mi pareja aporta | Total al mes |
-|----------|-----------------|-------------|
-| $_____ | $_____ | $_____ |
-
-**Para que se usa el fondo comun:**
-- [ ] Arriendo / vivienda: $___
-- [ ] Mercado: $___
-- [ ] Servicios del hogar: $___
-- [ ] Salidas en pareja: $___
-- [ ] Fondo de viajes: $___
-- [ ] Emergencias del hogar: $___
-- Otro: _______________: $___
+| Quien | Ingreso Mensual Regular | Meses con Prima (jun/dic) | Anual |
+|-------|------------------------|--------------------------|-------|
+| Nando (MIVIDA) | $3,700,000 | $3,700,000 | $44,400,000 |
+| J. Fernando | $3,364,780 | $5,047,170 | $43,742,140 |
+| **TOTAL PAREJA** | **$7,064,780** | **$8,747,170** | **$88,142,140** |
 
 ---
 
-## Gastos Compartidos del Mes
+## Gastos Compartidos Identificados
 
-| Gasto | Monto Total | Yo Pago | Pareja Paga | Fuente |
-|-------|------------|---------|------------|--------|
-| Arriendo | $ | $ | $ | Fondo / Yo / Pareja |
-| Mercado | $ | $ | $ | |
-| Luz / Gas / Agua | $ | $ | $ | |
-| Internet | $ | $ | $ | |
-| Salidas / Planes | $ | $ | $ | |
-| | $ | $ | $ | |
-| **TOTAL** | **$** | **$** | **$** | |
+### Gastos que aparecen en AMBAS hojas (duplicados o compartidos)
+| Concepto | En MIVIDA | En JFERNANDO | Aclaracion Necesaria |
+|----------|-----------|-------------|---------------------|
+| Gasolina | $400,000 | $400,000 | ¿Dos carros? |
+| Salidas en pareja | $500,000 | $600,000 | ¿Se suma o es el mismo gasto? |
+| Comida | $100,000 | $1,000,000 | Diferente concepto |
+| Transporte | $100,000 | $120,000 | ¿Separados? |
 
----
-
-## Deudas de Pareja
-
-Ver detalle completo en [debt-tracker.md](../templates/debt-tracker.md)
-
-| Deuda | Saldo | Cuota | Responsable | Estado |
-|-------|-------|-------|------------|--------|
-| | $ | $ | Yo / Pareja / Compartido | Al dia |
-| **TOTAL** | **$** | **$** | | |
+> ⚠️ Hay gastos que aparecen en los dos archivos. Necesario aclarar cuales son
+> gastos del hogar compartido y cuales son gastos individuales.
 
 ---
 
-## Metas Financieras en Pareja
+## Balance de la Pareja por Mes (2026)
 
-| Meta | Costo Estimado | Ahorro Mensual | Tiempo para Lograrlo | Progreso |
-|------|---------------|----------------|---------------------|---------|
-| | $ | $ | meses | $0 / $ |
-| Viaje | $ | $ | meses | |
-| Fondo de emergencia | $ | $ | meses | |
-| | $ | $ | meses | |
+| Mes | Ingresos Nando | Gastos Nando | Ingresos JF | Gastos JF | Balance Pareja |
+|-----|---------------|-------------|------------|----------|---------------|
+| Enero | $3,700,000 | $3,349,000 | $3,364,780 | $4,425,973 | **-$710,193** |
+| Febrero | $3,700,000 | $3,349,000 | $3,364,780 | $4,132,197 | **-$416,417** |
+| Marzo | $3,700,000 | $3,349,000 | $3,364,780 | $5,523,856 | **-$1,808,076** |
+| Abril | $3,700,000 | $3,349,000 | $3,364,780 | $4,528,323 | **-$412,543** |
+| Mayo | $3,700,000 | $3,349,000+ | $3,364,780 | $4,528,323 | **Deficit fuerte** |
+| Junio | $3,700,000 | $3,349,000+ | $5,047,170 | $5,129,000 | **-$730,830** |
+| Jul-Dic | $3,700,000 | $3,349,000 | $3,364,780 | $3,629,000 | **-$136,220** |
 
----
-
-## Acuerdos Financieros de Pareja
-
-> Reglas que hemos definido juntos para manejar el dinero:
-
-1. 
-2. 
-3. 
+> ⚠️ La pareja esta en **deficit la mayoria de los meses**.
+> Los gastos totales superan los ingresos combinados de forma recurrente.
 
 ---
 
-## Conversaciones Financieras Pendientes
+## Gastos Fijos de J. Fernando (Hoja JFERNANDO)
 
-- [ ] 
-- [ ] 
+| Categoria | Monto Mensual |
+|-----------|--------------|
+| Arriendo | $1,200,000 |
+| Transporte | $120,000 |
+| Gasolina | $400,000 |
+| Comida | $1,000,000 |
+| Salidas en pareja | $600,000 |
+| Otros | $75,000 |
+| Telefono celular | $110,000 |
+| Internet | $44,000 |
+| Mascotas | $80,000 |
+| Tarjeta Nu Bank | Variable ($500k - $1.5M) |
+| **TOTAL BASE** | **$3,629,000** (sin tarjeta) |
 
 ---
 
-## Registro Mensual de Pareja
+## Alertas de la Economia de Pareja
 
-| Mes | Ingresos Totales | Gastos Compartidos | Balance | Ahorro Conjunto |
-|-----|-----------------|-------------------|---------|----------------|
-| Jun 2026 | $ | $ | $ | $ |
-| Jul 2026 | $ | $ | $ | $ |
-| Ago 2026 | $ | $ | $ | $ |
+1. **Deficit recurrente**: La mayoria de meses los gastos combinados superan ingresos
+2. **Sin ahorro conjunto**: Ninguna hoja registra ahorro real
+3. **Gastos duplicados sin claridad**: Gasolina, salidas, transporte aparecen en ambas hojas
+4. **Tarjeta Nu Bank de JF es variable**: Fluctua entre $500k y $1.5M sin control claro
+5. **Gastos informales frecuentes**: Prestamos a familiares desestabilizan el flujo mensual
 
 ---
 
-*Revisar juntos una vez al mes — 30 minutos el ultimo domingo del mes*
+## Metas Financieras en Pareja — Por Definir
+
+| Meta | Costo Estimado | Plazo |
+|------|---------------|-------|
+| Viaje en pareja | Ya ejecutado jun 2026 ($2M) | Completado |
+| Pasaportes | $700,000 | Completado mayo 2026 |
+| | $ | |
+| Fondo de emergencia (3 meses) | ~$21,000,000 | Por construir |
+
+---
+
+## Acuerdos Pendientes de Definir
+
+- [ ] ¿Cuales gastos son compartidos y cuales individuales?
+- [ ] ¿Como se divide el arriendo?
+- [ ] Definir un fondo comun y cuanto aporta cada uno
+- [ ] Plan para salir del deficit mensual recurrente
+- [ ] Meta de ahorro conjunto
+
+---
+
+*Revisar juntos el ultimo domingo de cada mes — 30 minutos.*
