@@ -47,18 +47,29 @@ Ultima actualizacion: 2026-06-22
 
 ## Inversion Total de JF en Este Apartamento
 
-| Concepto | Valor Estimado |
-|----------|---------------|
+| Concepto | Valor |
+|----------|-------|
+| **Cuota inicial pagada por JF** | **$43,000,000** |
 | Prestamo a Monica (para calificar al credito) | $23,000,000 |
-| Cuota inicial del apartamento | Por confirmar |
-| Gastos de escrituracion y notaria (est.) | ~$3,000,000 - $5,000,000 |
-| Cuotas pagadas (ago 2023 - jun 2026 = ~34 meses) | ~$40,800,000 |
-| **TOTAL INVERTIDO HASTA HOY** | **~$66,800,000+** |
-| Cuotas restantes (~207 meses) | ~$243,000,000 |
-| **INVERSION TOTAL A 20 AÑOS** | **~$310,000,000+** |
+| Gastos de escrituracion, notaria y proceso (est.) | ~$4,000,000 |
+| Cuotas pagadas (ago 2023 - jun 2026 = ~34 meses x $1.2M) | ~$40,800,000 |
+| **TOTAL INVERTIDO HASTA HOY** | **~$110,800,000** |
+| Cuotas restantes (~207 meses x $1.174M) | ~$242,000,000 |
+| **INVERSION TOTAL PROYECTADA A 20 AÑOS** | **~$352,800,000** |
 
-> Nota: De los $94,500,000 originales, el apartamento ya vale mas en el mercado actual.
-> El valor real del inmueble debe ser avaluado para conocer el patrimonio actual.
+### Valor del Apartamento vs. Lo Invertido
+
+| | Valor |
+|-|-------|
+| Precio de compra 2023 (cuota inicial + credito) | ~$137,500,000 |
+| Saldo pendiente del credito (mayo 2026) | $91,661,863 |
+| Lo que JF ya pago (sin contar el prestamo a Monica) | ~$87,800,000 |
+| **Patrimonio real de JF en el inmueble (estimado)** | **~$45,838,137** |
+
+> El apartamento fue comprado en ~$137.5M en agosto 2023.
+> En Medellin, los inmuebles han valorizado entre un 15%-25% desde 2023.
+> Valor estimado actual del inmueble: **$155M - $170M**
+> Esto representa un patrimonio real significativo que DEBE estar protegido legalmente.
 
 ---
 
